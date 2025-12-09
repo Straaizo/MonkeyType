@@ -32,4 +32,74 @@ function initGame() {
     </word>
     `
   }).join('')
+
+
+  const $firstWord = $paragraph.querySelector('word')
+  $firstWord.classList.add('active')
+  $firstWord.querySelector('letter').classList.add('active')
+
+  const IntervalId = setInterval (() => {
+    currentTime--
+    $time.textContent = currentTime
+
+    if (currentTime == 0) {
+      clearInterval(IntervalId)
+      gameOver()
+    }
+  }, 1000)
 }
+
+function initEvents() {
+  $input.addEventListener('keydown',onkeydown)
+  $input.addEventListener('keyup',onkeyup)
+}
+
+
+function onkeydown(event){
+  const $currentWord = $paragraph.querySelector('word.active')
+  const $currentLetter = $currentWord.querySelector('letter.active')
+  
+  const { key } = event
+  if (key == ' ') {
+    event.preventDefault()
+  }
+}
+
+
+function onkeyup(){
+  const $currentWord = $paragraph.querySelector('word.active')
+  const $currentLetter = $currentWord.querySelector('letter.active')
+  
+  const currentWord = $currentWord.innerText.trim()
+  $input.maxLength = currentWord.length
+  console.log({ value: $input.value, currentWord})
+
+  const $allLetters = $currentWord.querySelectorAll('letter')
+
+  $allLetters.forEach($letter => $letter.classList.remove('correct','incorrect'))
+
+  $input.value.split('').forEach((char, index) => {
+   const $letter = $allLetters[index]
+   const letterToCheck = currentWord[index]
+
+    const isCorrect = char == letterToCheck
+    const letterClass = isCorrect ? 'correct' : 'incorrect'
+    $letter.classList.add(letterClass)
+  })
+
+  $currentLetter.classList.remove('active', 'is-last')
+  const inputLength = $input.value.length
+  const $nextActiveLetter = $allLetters[inputLength]
+
+  if ($nextActiveLetter) {
+    $nextActiveLetter.classList.add('active')
+  } else {
+    $currentLetter.classList.add('active', 'is-last')
+  }
+
+}
+
+function gameOver () {
+  console.log('game over')
+}
+

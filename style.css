@@ -1,10 +1,21 @@
-body, main {
+html, body, main {
   margin: 0;
   min-width: 100vw;
   min-height: 100vh;
   background-color: #323437;
   font-family: var(--font);
   font-size: 1rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+:root {
+  --green: #00b755;
+  --yellow: #daaf3b;
+  --red: #ca4754;
+  --black: #222;
+  --gray: #999;
+  --white :#ffffff;
 }
 
 /* Tablets */
@@ -23,7 +34,7 @@ body, main {
     overflow-x: hidden;
   }
 }
-  
+
 /* Celulares pequeños */
 @media (max-width: 480px) {
   body, main {
@@ -34,11 +45,68 @@ body, main {
 
 /* CSS PARA ETIQUETAS DE JS  */
 
-time{
-  color: #e2b714;
+
+.div-2 {
+  display: flex;
+  flex-direction: column;  
+  align-items: flex-start;  
+  justify-content: center;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
+time {
+  color: var(--yellow);
+  font-size: 22px;
+}
 
+p {
+  color: var(--white);
+  flex-wrap: wrap;
+  gap: 3px 8px;
+  font-size: 22px;
+}
+
+letter{
+  color: var(--gray); 
+
+  &.active::before {
+    content: '|';
+    color: var(--yellow);
+    position: absolute;
+    transform: translateX(-6px);
+    animation: 1s blink infinite ease-in-out;
+  }
+
+  &.active.is-last::before {
+    transform: translateX(6px);
+  }
+
+  &.correct {
+    color: var(--white)
+  }
+
+  &.incorrect {
+    color: var(--red);
+  }
+
+  
+}
+
+@keyframes blink {
+  0%, 25% {
+    opacity: 1;
+  }
+
+  75%{
+    opacity: 0;
+  }
+
+
+}
 
 
 /* CSS PARA INDEX */
@@ -320,7 +388,7 @@ header #logo .text .top {
 
 .pagetest {
   height: 100%;
-  display: grid;
+
   grid-template-rows: 1fr auto 1fr;
   opacity: 1;
 }
@@ -423,8 +491,4 @@ header #logo .text .top {
 
 :root {
   --font: "Roboto Mono", "Vazirmatn", monospace;
-}
-
-.colorsio {
-  color: white;
 }
