@@ -55,14 +55,34 @@ function initEvents() {
 }
 
 
-function onkeydown(event){
+function onkeydown(event) {
   const $currentWord = $paragraph.querySelector('word.active')
   const $currentLetter = $currentWord.querySelector('letter.active')
-  
-  const { key } = event
-  if (key == ' ') {
+
+  if (event.key === ' ') {
     event.preventDefault()
+
+    const $nextWord = $currentWord.nextElementSibling
+    if (!$nextWord) return
+
+    $currentWord.classList.remove('active','marked')
+    $currentLetter.classList.remove('active')
+
+    const $nextLetter = $nextWord.querySelector('letter')
+    $nextWord.classList.add('active')
+    $nextLetter.classList.add('active')
+
+    // Limpiar input
+    $input.value = ''
+  
+    const hasMissedLetters = $currentWord
+    .querySelectorAll('letter:not(.correct)').length > 0
+
+    const classToAdd = hasMissedLetters ? 'marked' : 'correct'  
+    $currentWord.classList.add(classToAdd)
   }
+
+
 }
 
 
@@ -98,6 +118,12 @@ function onkeyup(){
   }
 
 }
+
+
+
+
+
+
 
 function gameOver () {
   console.log('game over')
